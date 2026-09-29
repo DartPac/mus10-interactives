@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Nashville Sound — fill in the blanks</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.prose{font-size:1.05rem;line-height:2.2}
+select{font:inherit;min-height:3rem;padding:.3rem .5rem;border:2px solid var(--line-strong);
+  border-radius:6px;background:var(--white);color:var(--ink);max-width:100%}
+select:disabled{opacity:1}
+select.is-correct{border-color:var(--success);background:var(--success-soft)}
+select.is-wrong{border-color:var(--danger);background:var(--danger-soft)}
+.blank{white-space:nowrap;display:inline-flex;align-items:center;gap:.3rem}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.2 · Activity</p>
+<h1>What producers took out, and what they put in</h1>
+<p class="lede">Complete the passage. Each menu has one right answer, and the wrong answers are all real terms from this period — read the whole sentence before choosing.</p>
+</header>
+<div class="card prose">
+<p>By the late 1950s, rock &rsquo;n&rsquo; roll had taken a serious bite out of country record sales, and Nashville producers set out to make records that could compete on pop radio. Country sales were
+<span class="blank"><label class="visually-hidden" for="b3">Blank 3: what country sales were doing</label><select id="b3"><option value="">Choose&hellip;</option><option value="rising sharply">rising sharply</option><option value="declining">declining</option><option value="unchanged">unchanged</option></select><span id="m-b3" aria-hidden="false"></span></span>
+, and the new approach was an economic decision before it was an artistic one.</p>
+<p>Out went the two instruments most associated with honky-tonk &mdash;
+<span class="blank"><label class="visually-hidden" for="b1">Blank 1: instruments removed</label><select id="b1"><option value="">Choose&hellip;</option><option value="piano and upright bass">piano and upright bass</option><option value="fiddle and steel guitar">fiddle and steel guitar</option><option value="banjo and mandolin">banjo and mandolin</option></select><span id="m-b1" aria-hidden="false"></span></span>
+&mdash; along with the nasal lead vocal. In came
+<span class="blank"><label class="visually-hidden" for="b2">Blank 2: what was added</label><select id="b2"><option value="">Choose&hellip;</option><option value="distorted guitars">distorted guitars</option><option value="string sections">string sections</option><option value="horn sections">horn sections</option></select><span id="m-b2" aria-hidden="false"></span></span>
+, smooth background vocal groups, and a crooned lead vocal.</p>
+<p>The producer most associated with the change at RCA Victor was
+<span class="blank"><label class="visually-hidden" for="b4">Blank 4: the RCA producer</label><select id="b4"><option value="">Choose&hellip;</option><option value="Sam Phillips">Sam Phillips</option><option value="Chet Atkins">Chet Atkins</option><option value="Bumps Blackwell">Bumps Blackwell</option></select><span id="m-b4" aria-hidden="false"></span></span>
+, who worked alongside Owen Bradley at Decca. The style is called the Nashville Sound, or countrypolitan &mdash; a fusion of &ldquo;country&rdquo; and
+<span class="blank"><label class="visually-hidden" for="b5">Blank 5: the second word in countrypolitan</label><select id="b5"><option value="">Choose&hellip;</option><option value="metropolitan">metropolitan</option><option value="cosmopolitan">cosmopolitan</option><option value="continental">continental</option></select><span id="m-b5" aria-hidden="false"></span></span>
+.</p>
+<div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+</div>
+<div class="card" id="key" hidden>
+<h2 style="font-size:1rem;color:var(--green);margin:0 0 .5rem">Answer key</h2>
+<ol style="margin:0;padding-left:1.2rem">
+<li>Removed: <strong>fiddle and steel guitar</strong> &mdash; the two sounds that most marked a record as country rather than pop.</li>
+<li>Added: <strong>string sections</strong> &mdash; borrowed straight from mainstream pop orchestration.</li>
+<li>Sales were <strong>declining</strong> because of rock &rsquo;n&rsquo; roll; the Nashville Sound was the response.</li>
+<li><strong>Chet Atkins</strong> at RCA Victor, with Owen Bradley at Decca. Sam Phillips ran Sun in Memphis; Bumps Blackwell produced Sam Cooke.</li>
+<li>Country + <strong>cosmopolitan</strong> = countrypolitan.</li>
+</ol>
+</div>
+<div class="controls">
+  <button type="button" class="btn primary" id="check" disabled>Check answers</button>
+  <button type="button" class="btn" id="retry" hidden>Try again</button>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var KEY={b1:'fiddle and steel guitar',b2:'string sections',b3:'declining',b4:'Chet Atkins',b5:'cosmopolitan'};
+var statusEl=document.getElementById('status'),checked=false;
+var sels=Array.prototype.slice.call(document.querySelectorAll('select'));
+function progress(){
+  var done=sels.filter(function(s){return s.value;}).length;
+  document.getElementById('fill').style.width=(done/sels.length*100)+'%';
+  document.getElementById('check').disabled=(done<sels.length)||checked;
+}
+sels.forEach(function(s){ s.onchange=function(){ progress();
+  statusEl.className='status';
+  var left=sels.length-sels.filter(function(x){return x.value;}).length;
+  statusEl.textContent=left?(left+' blank'+(left===1?'':'s')+' left.'):'All blanks filled. Select Check answers.'; }; });
+document.getElementById('check').onclick=function(){
+  checked=true; var right=0;
+  sels.forEach(function(s){
+    var ok=(s.value===KEY[s.id]); if(ok)right++;
+    s.className=ok?'is-correct':'is-wrong'; s.disabled=true;
+    var m=document.getElementById('m-'+s.id);
+    m.textContent=ok?'✓':'✗'; m.className='mark';
+    m.setAttribute('aria-label',ok?'Correct':'Incorrect');
+  });
+  document.getElementById('check').disabled=true;
+  document.getElementById('retry').hidden=false;
+  document.getElementById('key').hidden=(right===sels.length);
+  statusEl.className=(right===sels.length)?'status':'status err';
+  statusEl.textContent=right+' of '+sels.length+' correct.'+(right===sels.length?' That is the whole recipe.':' The correct answers are shown below.');
+};
+document.getElementById('retry').onclick=function(){
+  checked=false; sels.forEach(function(s){s.value='';s.className='';s.disabled=false;
+    document.getElementById('m-'+s.id).textContent='';});
+  document.getElementById('key').hidden=true;
+  document.getElementById('retry').hidden=true;
+  statusEl.className='status';statusEl.textContent='Reset.';progress();
+};
+progress();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AABA form — label the sections</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.form-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:0 0 .8rem}
+@media (max-width:560px){.form-row{grid-template-columns:repeat(2,1fr)}}
+.sec{min-height:7rem;font:inherit;background:var(--white);border:2px solid var(--line-strong);
+  border-radius:10px;color:var(--ink);cursor:pointer;padding:.6rem;text-align:center;
+  display:flex;flex-direction:column;justify-content:center;gap:.2rem;transition:border-color 150ms}
+.sec .lbl{font-size:2rem;font-weight:900;line-height:1;color:var(--green)}
+.sec .lbl.empty{color:var(--muted);font-size:1.3rem}
+.sec .bars{font-size:.78rem;color:var(--muted)}
+.sec .desc{font-size:.82rem;color:var(--forest)}
+.sec:hover,.sec:focus-visible{border-color:var(--green)}
+.sec.set{border-color:var(--green);border-width:3px;background:var(--soft-green)}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.4 · Activity</p>
+<h1>Label the form of &ldquo;You Send Me&rdquo;</h1>
+<p class="lede">The song is built from four eight-bar sections. Tap each block to cycle its label between A and B — three of them share a melody and one does not. Then check your answer.</p>
+</header>
+<div class="card">
+<div class="form-row" role="group" aria-label="Four eight-bar sections in order">
+  <button type="button" class="sec"><span class="bars">Bars 1&ndash;8</span><span class="lbl empty">tap to label</span><span class="desc"></span></button>
+  <button type="button" class="sec"><span class="bars">Bars 9&ndash;16</span><span class="lbl empty">tap to label</span><span class="desc"></span></button>
+  <button type="button" class="sec"><span class="bars">Bars 17&ndash;24</span><span class="lbl empty">tap to label</span><span class="desc"></span></button>
+  <button type="button" class="sec"><span class="bars">Bars 25&ndash;32</span><span class="lbl empty">tap to label</span><span class="desc"></span></button>
+</div>
+<div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+</div>
+<div class="card" id="key" hidden>
+<h2 style="font-size:1rem;color:var(--green);margin:0 0 .5rem">A &ndash; A &ndash; B &ndash; A</h2>
+<p style="margin:0 0 .5rem">Sections 1, 2 and 4 all carry the same melody; only section 3 is different. That third section is the <strong>bridge</strong>, sometimes called the middle eight.</p>
+<p style="margin:0">The bridge exists to create a need. By moving away from the main tune &mdash; usually to a new key area &mdash; it makes the final return of A land as an arrival rather than as one more repetition. Listen for the moment the melody stops being familiar; that is where B begins.</p>
+</div>
+<div class="controls">
+  <button type="button" class="btn primary" id="check" disabled>Check answer</button>
+  <button type="button" class="btn" id="retry" hidden>Try again</button>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var KEY=['A','A','B','A'];
+var DESC=['Main tune stated','Main tune again, new words','New melody, new key area','Main tune returns and closes'];
+var vals=['','','',''],checked=false,statusEl=document.getElementById('status');
+var secs=Array.prototype.slice.call(document.querySelectorAll('.sec'));
+function paint(){
+  secs.forEach(function(s,k){
+    var v=vals[k];
+    var mark='';
+    if(checked){var ok=(v===KEY[k]);mark='<span class="mark" aria-hidden="true">'+(ok?'✓':'✗')+'</span>';}
+    s.querySelector('.lbl').innerHTML=mark+(v?v:'tap to label');
+    s.querySelector('.lbl').className='lbl'+(v?'':' empty');
+    s.querySelector('.desc').textContent=v?DESC[k]:'';
+    s.classList.toggle('set',!!v&&!checked);
+    s.classList.remove('is-correct','is-wrong');
+    if(checked)s.classList.add(v===KEY[k]?'is-correct':'is-wrong');
+    s.setAttribute('aria-label','Section '+(k+1)+', bars '+(k*8+1)+' to '+(k*8+8)+'. '+
+      (v?('Labelled '+v+'.'):'Not yet labelled.')+(checked?(' '+(v===KEY[k]?'Correct.':'Incorrect.')):' Activate to change the label.'));
+  });
+  var done=vals.filter(Boolean).length;
+  document.getElementById('fill').style.width=(done/4*100)+'%';
+  document.getElementById('check').disabled=(done<4)||checked;
+}
+secs.forEach(function(s,k){
+  s.onclick=function(){
+    if(checked)return;
+    vals[k]=(vals[k]==='')?'A':(vals[k]==='A'?'B':'');
+    paint();
+    statusEl.className='status';
+    statusEl.textContent='Section '+(k+1)+' is now '+(vals[k]||'unlabelled')+'.';
+  };
+});
+document.getElementById('check').onclick=function(){
+  checked=true;var right=0;
+  vals.forEach(function(v,k){if(v===KEY[k])right++;});
+  paint();
+  document.getElementById('check').disabled=true;
+  document.getElementById('retry').hidden=false;
+  document.getElementById('key').hidden=false;
+  statusEl.className=(right===4)?'status':'status err';
+  statusEl.textContent=right+' of 4 correct.'+(right===4?' That is AABA — thirty-two bars, and the odd one out is third.':' Remember: only one section is different, and it is not the last one.');
+};
+document.getElementById('retry').onclick=function(){
+  vals=['','','',''];checked=false;
+  document.getElementById('retry').hidden=true;
+  document.getElementById('key').hidden=true;
+  statusEl.className='status';statusEl.textContent='Reset.';paint();
+};
+paint();
+
+</script>
+</body>
+</html>

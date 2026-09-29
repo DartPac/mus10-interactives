@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Charts, Two Americas — sorting activity</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.bank{display:flex;flex-wrap:wrap;gap:.5rem;margin:0}
+.chip{
+  flex:1 1 15rem;text-align:left;min-height:3.2rem;padding:.6rem .8rem;font:inherit;
+  background:var(--white);border:2px solid var(--line-strong);border-radius:8px;
+  color:var(--ink);cursor:pointer;transition:border-color 150ms,background 150ms;
+}
+.chip .t{display:block;font-weight:800;color:var(--forest)}
+.chip .m{display:block;font-size:.85rem;color:var(--muted)}
+.chip[aria-pressed="true"]{border-color:var(--green);border-width:3px;background:var(--soft-green)}
+.chip[aria-pressed="true"] .t::before{content:"\25B8 ";color:var(--green)}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem}
+@media (max-width:640px){.bins{grid-template-columns:1fr}}
+.bin{background:var(--pale-green);border:2px dashed var(--line-strong);border-radius:10px;padding:.7rem;min-height:9rem}
+.bin.hot{border-color:var(--green);border-style:solid;background:var(--soft-green)}
+.bin h2{font-size:.95rem;color:var(--green);margin:0 0 .2rem}
+.bin .sub{font-size:.82rem;color:var(--muted);margin:0 0 .6rem}
+.bin .drop{width:100%;min-height:2.6rem;font:inherit;font-weight:700;background:transparent;
+  border:2px solid var(--green);border-radius:8px;color:var(--green);cursor:pointer;padding:.4rem}
+.bin .drop:hover,.bin .drop:focus-visible{background:var(--green);color:var(--white)}
+.bin ul{list-style:none;margin:.5rem 0 0;padding:0;display:flex;flex-direction:column;gap:.4rem}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.1 · Activity</p>
+<h1>Which records crossed over?</h1>
+<p class="lede">Each record below was a hit. Sort them by whether that success reached the pop audience or stayed inside its home market. Select a record, then select a column — this works with a mouse, a finger, or the keyboard alone.</p>
+</header>
+<div class="card">
+<h2 class="visually-hidden">Records to sort</h2>
+<div class="bank" id="bank"></div>
+<div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+</div>
+<div class="bins">
+  <section class="bin" aria-labelledby="h-cross">
+    <h2 id="h-cross">Major pop crossover</h2>
+    <p class="sub">Reached the pop Top 15</p>
+    <button type="button" class="drop" id="drop-cross">Place here</button>
+    <ul id="list-cross"></ul>
+  </section>
+  <section class="bin" aria-labelledby="h-bound">
+    <h2 id="h-bound">Stayed in its home market</h2>
+    <p class="sub">No. 1 at home, but well down the pop chart</p>
+    <button type="button" class="drop" id="drop-bound">Place here</button>
+    <ul id="list-bound"></ul>
+  </section>
+</div>
+<div class="controls">
+  <button type="button" class="btn primary" id="check" disabled>Check answers</button>
+  <button type="button" class="btn" id="retry" hidden>Try again</button>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var ITEMS=[
+ {id:'i1',t:'Patsy Cline &mdash; "Walkin\' after Midnight" (1957)',m:'No. 2 country · No. 12 pop',bin:'cross'},
+ {id:'i2',t:'Patsy Cline &mdash; "I Fall to Pieces" (1961)',m:'No. 1 country · No. 12 pop',bin:'cross'},
+ {id:'i3',t:'Patsy Cline &mdash; "Crazy" (1961)',m:'No. 2 country · No. 9 pop',bin:'cross'},
+ {id:'i4',t:'Sam Cooke &mdash; "You Send Me" (1957)',m:'No. 1 R&amp;B · No. 1 pop',bin:'cross'},
+ {id:'i5',t:'Buck Owens &mdash; "I\'ve Got a Tiger by the Tail" (1965)',m:'No. 1 country (5 wks) · No. 25 pop',bin:'bound'},
+ {id:'i6',t:'Freddie Scott &mdash; "Are You Lonely for Me" (1967)',m:'No. 1 R&amp;B (4 wks) · No. 39 pop, one week',bin:'bound'},
+ {id:'i7',t:'Merle Haggard &mdash; "Okie from Muskogee" (1969)',m:'No. 1 country · No. 41 pop',bin:'bound'}
+];
+var placed={},sel=null,checked=false;
+function refocus(id,fallback){
+  var el=document.getElementById(id);
+  if(el&&el.offsetParent!==null){el.focus();return;}
+  var fb=document.querySelector(fallback); if(fb)fb.focus();
+}
+var bank=document.getElementById('bank'),statusEl=document.getElementById('status');
+function esc(s){return s;}
+function render(){
+  bank.innerHTML='';
+  ITEMS.forEach(function(it){ if(placed[it.id])return;
+    var b=document.createElement('button');
+    b.type='button';b.className='chip';b.id=it.id;b.setAttribute('aria-pressed',sel===it.id?'true':'false');
+    b.innerHTML='<span class="t">'+it.t+'</span><span class="m">'+it.m+'</span>';
+    b.onclick=function(){ var label=b.innerText.split("\n")[0];
+      sel=(sel===it.id)?null:it.id; render(); refocus(it.id,'#bank .chip');
+      statusEl.className='status';
+      statusEl.textContent=sel?('Selected: '+label+'. Now choose a column.'):'Selection cleared.'; };
+    bank.appendChild(b);
+  });
+  ['cross','bound'].forEach(function(k){
+    var ul=document.getElementById('list-'+k); ul.innerHTML='';
+    ITEMS.forEach(function(it){ if(placed[it.id]!==k)return;
+      var li=document.createElement('li');
+      var b=document.createElement('button');
+      b.type='button';b.className='chip';
+      var mark='';
+      if(checked){ var ok=(it.bin===k); mark='<span class="mark" aria-hidden="true">'+(ok?'✓':'✗')+'</span>';
+        b.className+=ok?' is-correct':' is-wrong';
+        b.setAttribute('aria-label',(ok?'Correct. ':'Incorrect. ')+b.innerText); }
+      b.innerHTML=mark+'<span class="t">'+it.t+'</span><span class="m">'+it.m+'</span>';
+      b.onclick=function(){ if(checked)return; delete placed[it.id]; sel=null; render();
+        refocus(it.id,'#bank .chip');
+        statusEl.className='status'; statusEl.textContent='Returned to the bank.'; };
+      li.appendChild(b); ul.appendChild(li);
+    });
+  });
+  var n=Object.keys(placed).length;
+  document.getElementById('fill').style.width=(n/ITEMS.length*100)+'%';
+  document.getElementById('check').disabled=(n<ITEMS.length)||checked;
+}
+function place(k){
+  if(checked)return;
+  if(!sel){ statusEl.className='status err'; statusEl.textContent='Choose a record first, then choose a column.'; return; }
+  placed[sel]=k; sel=null; render();
+  var left=ITEMS.length-Object.keys(placed).length;
+  refocus('', left?'#bank .chip':'#check');
+  statusEl.className='status';
+  statusEl.textContent=left?('Placed. '+left+' record'+(left===1?'':'s')+' to go.'):'All records placed. Select Check answers.';
+}
+document.getElementById('drop-cross').onclick=function(){place('cross');};
+document.getElementById('drop-bound').onclick=function(){place('bound');};
+document.getElementById('check').onclick=function(){
+  checked=true; var right=0;
+  ITEMS.forEach(function(it){ if(placed[it.id]===it.bin)right++; });
+  render();
+  document.getElementById('check').disabled=true;
+  document.getElementById('retry').hidden=false;
+  document.getElementById('retry').focus();
+  statusEl.className=(right===ITEMS.length)?'status':'status err';
+  statusEl.textContent=right+' of '+ITEMS.length+' correct.'+(right===ITEMS.length
+    ? ' Every one of these was a hit — the difference is only which audience heard it.'
+    : ' Check marks show which are right; look at how far apart the two chart numbers are.');
+};
+document.getElementById('retry').onclick=function(){
+  placed={};sel=null;checked=false;
+  document.getElementById('retry').hidden=true;
+  statusEl.className='status';statusEl.textContent='Reset. Try again.';render();
+};
+render();
+
+</script>
+</body>
+</html>

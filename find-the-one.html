@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find the One — funk rhythm activity</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.8rem 0}
+.beat{position:relative;min-height:5.5rem;font:inherit;font-weight:900;font-size:1.5rem;
+  background:var(--white);border:2px solid var(--line-strong);border-radius:10px;color:var(--forest);
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding:.5rem;gap:.3rem;transition:border-color 150ms,background 150ms}
+.beat:hover,.beat:focus-visible{border-color:var(--green)}
+.beat .amp{width:60%;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:3px 3px 0 0}
+.beat.playing{background:var(--soft-green);border-color:var(--green);border-width:3px}
+.beat[aria-pressed="true"]{border-color:var(--green);border-width:3px;background:var(--soft-green)}
+.beat[aria-pressed="true"]::before{content:"\2713";position:absolute;top:.3rem;right:.5rem;color:var(--green);font-size:1rem}
+.tabs{display:flex;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap}
+.tab{flex:1 1 9rem;min-height:2.9rem;font:inherit;font-weight:800;border:2px solid var(--green);
+  border-radius:8px;background:var(--white);color:var(--green);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--green);color:var(--white)}
+.legend{font-size:.88rem;color:var(--muted);margin:.4rem 0 0}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.5 · Activity</p>
+<h1>Find the One</h1>
+<p class="lede">Two rhythm patterns, four beats each. Play one, then select the beat or beats the band emphasises. If you cannot use the audio, the bar above each number shows the same loudness pattern visually.</p>
+</header>
+<div class="card">
+<div class="tabs" role="tablist" aria-label="Choose a rhythm pattern">
+  <button type="button" class="tab" data-r="rock" role="tab" aria-selected="true">1. Rock backbeat</button>
+  <button type="button" class="tab" data-r="funk" role="tab" aria-selected="false">2. Funk &mdash; James Brown</button>
+</div>
+<p id="hint" style="margin:0 0 .2rem"></p>
+<div class="grid" role="group" aria-label="Four beats — select the emphasised beats">
+  <button type="button" class="beat"><span class="amp"></span>1</button>
+  <button type="button" class="beat"><span class="amp"></span>2</button>
+  <button type="button" class="beat"><span class="amp"></span>3</button>
+  <button type="button" class="beat"><span class="amp"></span>4</button>
+</div>
+<p class="legend">The green bar above each beat shows how loud that beat is in the pattern &mdash; taller means louder.</p>
+</div>
+<div class="card" id="summary" hidden>
+<h2 style="font-size:1rem;color:var(--green);margin:0 0 .5rem">Why this one change matters so much</h2>
+<p style="margin:0">A backbeat on 2 and 4 rocks you back and forth; it is a call-and-answer feel. Putting the whole band on beat 1 instead creates a hard anchor at the top of every bar, and the other instruments then interlock in the spaces between. That is why a funk groove feels like it pulls forward, and it is why the band can stay on a single chord for minutes without the music going slack &mdash; the interest has moved from harmony into rhythm.</p>
+</div>
+<div class="controls">
+  <button type="button" class="btn" id="play">Play the pattern</button>
+  <button type="button" class="btn primary" id="check" disabled>Check my answer</button>
+  <button type="button" class="btn" id="retry" hidden>Try again</button>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var ROUNDS={
+ rock:{name:'Rock backbeat',accents:[2,4],amp:[35,100,35,100],
+   hint:'Standard rock and most R&amp;B. The snare drum cracks on beats 2 and 4.',
+   done:'Correct — a backbeat lands on 2 and 4. This is the feel almost every record before 1965 uses.'},
+ funk:{name:'Funk — James Brown',accents:[1],amp:[100,30,45,30],
+   hint:'What Brown drilled into his bands. The whole group hits one beat together.',
+   done:'Correct — funk lands on the One. Everything else in the groove is arranged around that single anchor.'}
+};
+var cur='rock',picked={rock:[],funk:[]},done={rock:false,funk:false};
+var statusEl=document.getElementById('status');
+var ctx=null;
+function tone(freq,t,dur,gain){
+  var o=ctx.createOscillator(),g=ctx.createGain();
+  o.type='square';o.frequency.value=freq;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(gain,t+0.005);
+  g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+  o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+dur+0.02);
+}
+function paint(){
+  var R=ROUNDS[cur];
+  document.getElementById('hint').innerHTML=R.hint;
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(t){
+    t.setAttribute('aria-selected',t.dataset.r===cur?'true':'false');});
+  Array.prototype.forEach.call(document.querySelectorAll('.beat'),function(b,k){
+    var n=k+1,on=picked[cur].indexOf(n)>-1;
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('.amp').style.height=(R.amp[k]*0.32)+'px';
+    b.classList.remove('is-correct','is-wrong');
+    b.setAttribute('aria-label','Beat '+n+'. Loudness '+R.amp[k]+' percent. '+(on?'Selected as emphasised.':'Not selected.'));
+  });
+  document.getElementById('check').disabled=picked[cur].length===0||done[cur];
+}
+function play(){
+  try{ ctx=ctx||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){
+    statusEl.className='status err';statusEl.textContent='Audio is unavailable in this browser — use the bar heights above, which show the same pattern visually.';return;}
+  if(ctx.state==='suspended')ctx.resume();
+  var R=ROUNDS[cur],t0=ctx.currentTime+0.1,spb=0.5;
+  for(var bar=0;bar<2;bar++)for(var k=0;k<4;k++){
+    var t=t0+(bar*4+k)*spb,loud=R.amp[k]/100;
+    tone(k===0?150:110,t,0.09,0.05+0.22*loud);
+    if(R.accents.indexOf(k+1)>-1)tone(1800,t,0.05,0.10);
+    (function(idx,when){setTimeout(function(){
+      var bs=document.querySelectorAll('.beat');
+      Array.prototype.forEach.call(bs,function(b){b.classList.remove('playing');});
+      bs[idx].classList.add('playing');
+      if(idx===3)setTimeout(function(){bs[3].classList.remove('playing');},400);
+    },(when-ctx.currentTime)*1000);})(k,t);
+  }
+  statusEl.className='status';statusEl.textContent='Playing two bars of the '+R.name+' pattern. Which beat is loudest?';
+}
+Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(t){
+  t.onclick=function(){cur=t.dataset.r;paint();statusEl.className='status';
+    statusEl.textContent='Switched to: '+ROUNDS[cur].name+'.';};
+});
+Array.prototype.forEach.call(document.querySelectorAll('.beat'),function(b,k){
+  b.onclick=function(){
+    if(done[cur])return;
+    var n=k+1,a=picked[cur],i=a.indexOf(n);
+    if(i>-1)a.splice(i,1);else a.push(n);
+    paint();statusEl.className='status';
+    statusEl.textContent='Beat '+n+(i>-1?' deselected.':' selected.')+' Selected so far: '+(a.length?a.slice().sort().join(', '):'none')+'.';
+  };
+});
+document.getElementById('play').onclick=play;
+document.getElementById('check').onclick=function(){
+  var R=ROUNDS[cur],got=picked[cur].slice().sort().join(','),want=R.accents.slice().sort().join(',');
+  var ok=(got===want);
+  Array.prototype.forEach.call(document.querySelectorAll('.beat'),function(b,k){
+    var n=k+1,should=R.accents.indexOf(n)>-1,chose=picked[cur].indexOf(n)>-1;
+    if(chose||should)b.classList.add(should&&chose?'is-correct':'is-wrong');
+  });
+  if(ok){done[cur]=true;document.getElementById('check').disabled=true;}
+  document.getElementById('retry').hidden=false;
+  statusEl.className=ok?'status':'status err';
+  statusEl.textContent=ok?R.done:('Not quite. The emphasised beats are '+R.accents.join(' and ')+'. Play it again and listen for the beat the whole band hits together.');
+  if(done.rock&&done.funk){
+    document.getElementById('summary').hidden=false;
+    statusEl.textContent='Both patterns correct. '+R.done+' Moving the emphasis from 2-and-4 to the One is the single change that turns soul into funk.';
+  }
+};
+document.getElementById('retry').onclick=function(){
+  picked[cur]=[];done[cur]=false;
+  document.getElementById('retry').hidden=true;
+  statusEl.className='status';statusEl.textContent='Reset '+ROUNDS[cur].name+'.';paint();
+};
+paint();
+
+</script>
+</body>
+</html>

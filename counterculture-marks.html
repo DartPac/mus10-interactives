@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The counterculture myth — mark the qualifications</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.passage{font-size:1.06rem;line-height:2.05}
+.w{font:inherit;background:transparent;border:none;border-bottom:2px dotted var(--line-strong);
+  padding:.15rem .2rem;margin:0 .05rem;cursor:pointer;color:var(--ink);border-radius:3px}
+.w:hover,.w:focus-visible{background:var(--soft-green)}
+.w[aria-pressed="true"]{background:var(--soft-green);border-bottom:3px solid var(--green);font-weight:700}
+.w[aria-pressed="true"]::after{content:"\00A0\25C6";color:var(--green);font-size:.7em;vertical-align:super}
+.w.is-correct{background:var(--success-soft);border-bottom:3px solid var(--success)}
+.w.is-wrong{background:var(--danger-soft);border-bottom:3px solid var(--danger)}
+.w.missed{background:#fff;border-bottom:3px dashed var(--green);font-weight:700}
+.scorebar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:.8rem}
+.scorebar .n{font-weight:900;color:var(--green)}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.9 · Activity</p>
+<h1>Where does the myth break down?</h1>
+<p class="lede">Below is the standard picture of the 1960s counterculture, followed by four claims. Mark every claim the lecture identifies as a reason the label oversimplifies. There are three.</p>
+</header>
+<div class="card">
+<p style="margin:0 0 1rem;padding:.7rem .9rem;background:var(--soft-green);border-left:5px solid var(--green);border-radius:0 6px 6px 0">
+<strong>The standard picture:</strong> the typical member of the counterculture was a young rock music fan who supported the civil rights movement and opposed the Vietnam War.</p>
+<p style="margin:0 0 .6rem;font-weight:700;color:var(--forest)">Which of the following does the lecture raise as a problem with that picture? Select all that apply.</p>
+<div class="passage">
+<p style="margin:0 0 .8rem"><button type="button" class="w" id="t1" aria-pressed="false">Many older Americans opposed the Vietnam War too, and had no fondness for the new rock music.</button></p>
+<p style="margin:0 0 .8rem"><button type="button" class="w" id="d1" aria-pressed="false">Rock music was an essential part of how the counterculture defined itself.</button></p>
+<p style="margin:0 0 .8rem"><button type="button" class="w" id="t2" aria-pressed="false">Many young rock fans were apolitical, or supported conservative political agendas.</button></p>
+<p style="margin:0 0 .8rem"><button type="button" class="w" id="t3" aria-pressed="false">Movements preaching a more just social order often excluded women and people of colour from leadership.</button></p>
+<p style="margin:0"><button type="button" class="w" id="d2" aria-pressed="false">All American men between eighteen and twenty-six were eligible for the draft.</button></p>
+</div>
+<div class="scorebar"><span>Marked: <span class="n" id="n">0</span></span></div>
+</div>
+<div class="card" id="key" hidden>
+<h2 style="font-size:1rem;color:var(--green);margin:0 0 .5rem">Why these three and not the others</h2>
+<p style="margin:0 0 .6rem">The three qualifications all attack the same assumption &mdash; that opposing the war, loving rock, and holding progressive politics were one package carried by one group of people. Each shows the package coming apart: older opponents of the war who did not like the music, young fans of the music who were not political, and progressive movements that were not internally just.</p>
+<p style="margin:0">The other two statements are true, and both appear in the lecture &mdash; but neither is a <em>criticism</em> of the counterculture label. Rock&rsquo;s centrality and the reach of the draft are part of the explanation for why the phenomenon existed at all. Being true is not the same as being a qualification, and telling those apart is most of what historical reading is.</p>
+</div>
+<div class="controls">
+  <button type="button" class="btn primary" id="check" disabled>Check my answer</button>
+  <button type="button" class="btn" id="retry" hidden>Try again</button>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var TARGETS=['t1','t2','t3'];
+var picked={},checked=false,statusEl=document.getElementById('status');
+var ws=Array.prototype.slice.call(document.querySelectorAll('.w'));
+function paint(){
+  ws.forEach(function(w){
+    w.setAttribute('aria-pressed',picked[w.id]?'true':'false');
+    w.className='w';
+    if(checked){
+      var should=TARGETS.indexOf(w.id)>-1,chose=!!picked[w.id];
+      if(chose&&should)w.className='w is-correct';
+      else if(chose&&!should)w.className='w is-wrong';
+      else if(!chose&&should)w.className='w missed';
+    }
+  });
+  var n=Object.keys(picked).filter(function(k){return picked[k];}).length;
+  document.getElementById('n').textContent=n;
+  document.getElementById('check').disabled=(n===0)||checked;
+}
+ws.forEach(function(w){
+  w.onclick=function(){
+    if(checked)return;
+    picked[w.id]=!picked[w.id];paint();
+    statusEl.className='status';
+    statusEl.textContent=(picked[w.id]?'Marked: ':'Unmarked: ')+w.textContent.trim();
+  };
+});
+document.getElementById('check').onclick=function(){
+  checked=true;
+  var hit=TARGETS.filter(function(t){return picked[t];}).length;
+  var wrong=Object.keys(picked).filter(function(k){return picked[k]&&TARGETS.indexOf(k)<0;}).length;
+  paint();
+  document.getElementById('check').disabled=true;
+  document.getElementById('retry').hidden=false;
+  document.getElementById('key').hidden=false;
+  var perfect=(hit===TARGETS.length&&wrong===0);
+  statusEl.className=perfect?'status':'status err';
+  statusEl.textContent='You found '+hit+' of '+TARGETS.length+' qualifications'+
+    (wrong?(' and marked '+wrong+' passage'+(wrong===1?'':'s')+' that the lecture does not question'):'')+
+    '. Solid green = correct, red = not a qualification, dashed = one you missed.';
+};
+document.getElementById('retry').onclick=function(){
+  picked={};checked=false;
+  document.getElementById('retry').hidden=true;
+  document.getElementById('key').hidden=true;
+  statusEl.className='status';statusEl.textContent='Reset.';paint();
+};
+paint();
+
+</script>
+</body>
+</html>

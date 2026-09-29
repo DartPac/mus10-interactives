@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The road to soul — timeline</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.years{display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 1rem}
+.yr{flex:1 1 5.5rem;min-height:3.1rem;font:inherit;font-weight:800;background:var(--white);
+  border:2px solid var(--green);border-radius:8px;color:var(--green);cursor:pointer;
+  transition:background 150ms,color 150ms,transform 150ms}
+.yr:hover,.yr:focus-visible{background:var(--green);color:var(--white)}
+.yr[aria-current="true"]{background:var(--green);color:var(--white);box-shadow:inset 0 0 0 3px var(--white),0 0 0 3px var(--green)}
+.yr[aria-current="true"]::after{content:" \25CF";}
+.yr.seen:not([aria-current="true"])::after{content:" \2713";color:var(--green)}
+.slide h2{color:var(--green);font-size:1.15rem;margin:0 0 .1rem}
+.slide .who{color:var(--muted);margin:0 0 .8rem;font-weight:700}
+.slide p{margin:0 0 .7rem}
+.slide .why{background:var(--soft-green);border-left:5px solid var(--green);border-radius:0 6px 6px 0;padding:.6rem .85rem;margin:.8rem 0 0}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.3 · Activity</p>
+<h1>The road to soul, 1954&ndash;1967</h1>
+<p class="lede">Six recordings that carry gospel technique into secular music. Step through them with the year buttons — arrow keys work too. Read all six and the through-line becomes hard to miss.</p>
+</header>
+<div class="card">
+  <div class="years" id="years" role="group" aria-label="Choose a year"></div>
+  <div class="slide" id="slide" role="region" aria-live="polite" aria-label="Milestone detail"></div>
+  <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var EV=[
+ {y:'1954',t:'&ldquo;I Got a Woman&rdquo;',w:'Ray Charles · Atlantic Records',
+  p:'Recorded in November 1954 at a radio station in Atlanta and released that December; No. 1 R&amp;B in January 1955. Charles and trumpeter Renald Richard built it directly on a gospel song, &ldquo;It Must Be Jesus&rdquo; by the Southern Tones.',
+  why:'The template. Gospel technique, secular words — everything after this is elaboration.'},
+ {y:'1957',t:'&ldquo;You Send Me&rdquo;',w:'Sam Cooke · Keen Records',
+  p:'No. 1 on both the pop and R&amp;B charts, nearly two million copies sold. Produced by Bumps Blackwell in a classic 32-bar AABA form.',
+  why:'Proof the crossover could be total. Cooke keeps gospel&rsquo;s smoothness and aims it straight at the mainstream.'},
+ {y:'1959',t:'&ldquo;What&rsquo;d I Say&rdquo;',w:'Ray Charles',
+  p:'An improvised end-of-set vamp that became a hit record, built almost entirely from call and response between Charles and his backing singers.',
+  why:'Call and response — a church practice — becomes the whole structure of a pop record.'},
+ {y:'1962',t:'<em>Modern Sounds in Country and Western Music</em>',w:'Ray Charles',
+  p:'A Black R&amp;B star records country repertoire with lush pop orchestration.',
+  why:'A deliberate crossing of the exact racial and regional market lines the separate charts were built to track.'},
+ {y:'1965',t:'&ldquo;Papa&rsquo;s Got a Brand New Bag&rdquo;',w:'James Brown',
+  p:'The rhythmic side of gospel pushed until rhythm becomes the primary content. Emphasis moves off the backbeat and onto beat one.',
+  why:'Soul turns into funk. Harmony thins out; the groove carries everything.'},
+ {y:'1967',t:'&ldquo;Respect&rdquo;',w:'Aretha Franklin',
+  p:'Otis Redding&rsquo;s 1965 song, reversed in perspective and rebuilt with the spelled-out hook. No. 1 pop.',
+  why:'The full apparatus, sung by someone raised inside it — and immediately heard as a political statement.'}
+];
+var i=0,seen={},statusEl=document.getElementById('status');
+var yrs=document.getElementById('years'),slide=document.getElementById('slide');
+function show(n){
+  i=n; seen[n]=true;
+  var e=EV[n];
+  slide.innerHTML='<h2>'+e.y+' &mdash; '+e.t+'</h2><p class="who">'+e.w+'</p><p>'+e.p+
+    '</p><div class="why"><strong>Why it matters:</strong> '+e.why+'</div>';
+  Array.prototype.forEach.call(yrs.children,function(b,k){
+    b.setAttribute('aria-current',k===n?'true':'false');
+    if(seen[k])b.classList.add('seen');
+  });
+  var c=Object.keys(seen).length;
+  document.getElementById('fill').style.width=(c/EV.length*100)+'%';
+  statusEl.className='status';
+  statusEl.textContent=(c===EV.length)
+    ? 'All '+EV.length+' milestones viewed. Notice the through-line: every one of these is church technique doing secular work.'
+    : ('Viewed '+c+' of '+EV.length+'. Showing '+e.y+'.');
+}
+EV.forEach(function(e,k){
+  var b=document.createElement('button');
+  b.type='button';b.className='yr';b.textContent=e.y;
+  b.setAttribute('aria-current','false');
+  b.onclick=function(){show(k);};
+  b.onkeydown=function(ev){
+    var n=null;
+    if(ev.key==='ArrowRight')n=Math.min(EV.length-1,k+1);
+    if(ev.key==='ArrowLeft')n=Math.max(0,k-1);
+    if(ev.key==='Home')n=0; if(ev.key==='End')n=EV.length-1;
+    if(n!==null){ev.preventDefault();yrs.children[n].focus();show(n);}
+  };
+  yrs.appendChild(b);
+});
+show(0);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broadway in the sixties — matching activity</title>
+<style>
+:root{
+  --green:#00693E; --forest:#12312B; --forest-rich:#0D1E1C; --white:#FFFFFF;
+  --ink:#12312B; --muted:#4A5F57;
+  --soft-green:#E8F2ED; --pale-green:#F4F9F6; --line:#C9DBD2; --line-strong:#6E8F84;
+  --danger:#9D162E; --danger-soft:#FBE9EC;
+  --success:#00693E; --success-soft:#E8F2ED;
+  --shadow:0 8px 28px rgba(18,49,43,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"National 2","Aptos","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--pale-green);
+  line-height:1.55; font-size:16px;
+}
+.shell{max-width:62rem;margin:0 auto;padding:clamp(.9rem,3vw,1.5rem)}
+.eyebrow{
+  display:inline-block;background:var(--soft-green);color:var(--green);
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  border-radius:999px;padding:.28rem .8rem;margin:0 0 .6rem;
+}
+h1{font-size:clamp(1.25rem,3.4vw,1.6rem);color:var(--green);margin:0 0 .4rem;line-height:1.25}
+.lede{margin:0 0 1.1rem;color:var(--muted);max-width:60ch}
+.card{
+  background:var(--white);border:2px solid rgba(18,49,43,.10);border-radius:10px;
+  padding:clamp(.9rem,2.6vw,1.25rem);box-shadow:var(--shadow);margin-bottom:1rem;
+}
+.status{
+  margin:.9rem 0 0;min-height:1.6rem;font-weight:700;color:var(--forest);
+  background:var(--soft-green);border-left:5px solid var(--green);
+  border-radius:0 6px 6px 0;padding:.6rem .85rem;
+}
+.status:empty{display:none}
+.status.err{background:var(--danger-soft);border-left-color:var(--danger);color:var(--danger)}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.btn{
+  flex:1 1 11rem;min-height:3rem;padding:0 1rem;font:inherit;font-weight:800;
+  border:2px solid var(--green);border-radius:8px;background:var(--white);color:var(--green);
+  cursor:pointer;transition:background 150ms,color 150ms,border-color 150ms;
+}
+.btn:hover:not(:disabled),.btn:focus-visible:not(:disabled){background:var(--green);color:var(--white)}
+.btn:active:not(:disabled){background:var(--forest);border-color:var(--forest);color:var(--white)}
+.btn.primary{background:var(--green);color:var(--white)}
+.btn.primary:hover:not(:disabled),.btn.primary:focus-visible:not(:disabled){background:var(--forest);border-color:var(--forest)}
+.btn:disabled{border-color:var(--line-strong);color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.primary:disabled{background:var(--white);color:var(--muted);border-color:var(--line-strong)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.btn:focus-visible{outline-offset:3px}
+/* state signalling always pairs colour with a mark or text (WCAG 1.4.1) */
+.mark{font-weight:900;margin-right:.35rem}
+.is-correct{border-color:var(--success)!important;background:var(--success-soft)!important}
+.is-wrong{border-color:var(--danger)!important;background:var(--danger-soft)!important}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.progress-track{height:10px;background:var(--soft-green);border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;margin:.5rem 0 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width 240ms ease}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:800;color:var(--forest);padding-bottom:.5rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:680px){.cols{grid-template-columns:1fr}}
+.col h2{font-size:.95rem;color:var(--green);margin:0 0 .5rem}
+.pile{display:flex;flex-direction:column;gap:.5rem;margin:0;padding:0;list-style:none}
+.pcard{width:100%;text-align:left;min-height:3.4rem;padding:.6rem .8rem;font:inherit;
+  background:var(--white);border:2px solid var(--line-strong);border-radius:8px;color:var(--ink);cursor:pointer}
+.pcard:hover:not(:disabled),.pcard:focus-visible:not(:disabled){border-color:var(--green)}
+.pcard[aria-pressed="true"]{border-color:var(--green);border-width:3px;background:var(--soft-green)}
+.pcard[aria-pressed="true"]::before{content:"\25B8 ";color:var(--green);font-weight:900}
+.pcard:disabled{opacity:1;cursor:default}
+.pcard .yr{display:block;font-size:.82rem;color:var(--muted);font-weight:700}
+.pairs{margin-top:1rem}
+.pairs li{background:var(--soft-green);border:2px solid var(--green);border-radius:8px;
+  padding:.6rem .8rem;margin-bottom:.5rem;list-style:none}
+.pairs .p1{font-weight:800;color:var(--forest)}
+.pairs .p2{font-size:.92rem;margin-top:.15rem}
+</style>
+</head>
+<body>
+<main class="shell">
+<header>
+<p class="eyebrow">MUS 10.7 · Activity</p>
+<h1>Three shows, three contributions</h1>
+<p class="lede">Each of these musicals changed something different about what Broadway could do. Select a show, then select the contribution that belongs to it.</p>
+</header>
+<div class="card">
+<div class="cols">
+  <div class="col"><h2 id="h-shows">The shows</h2><ul class="pile" id="shows" aria-labelledby="h-shows"></ul></div>
+  <div class="col"><h2 id="h-facts">What each one changed</h2><ul class="pile" id="facts" aria-labelledby="h-facts"></ul></div>
+</div>
+<div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+<ul class="pairs" id="pairs" aria-label="Matched pairs"></ul>
+</div>
+<div class="card" id="done" hidden>
+<h2 tabindex="-1" style="font-size:1rem;color:var(--green);margin:0 0 .5rem">The pattern across all three</h2>
+<p style="margin:0">Each show took something Broadway treated as decoration and made it structural. Robbins made <em>dance</em> carry narrative; <em>Fiddler</em> proved a show about a specific ethnic community&rsquo;s persecution could run longer than any comedy; and <em>Hair</em> replaced the musical vocabulary itself. That last one is why <em>Hair</em> matters to this module in particular &mdash; it is Broadway conceding that popular song now belonged to rock and soul.</p>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  // report height to a parent that cares; harmless when nobody listens
+  function ping(){ try{ parent.postMessage({type:'activity-height',h:document.documentElement.scrollHeight},'*'); }catch(e){} }
+  window.addEventListener('load',ping); window.addEventListener('resize',ping);
+  new MutationObserver(ping).observe(document.body,{subtree:true,childList:true,attributes:true});
+})();
+
+var SHOWS=[
+ {id:'wss',t:'West Side Story',yr:'1957 · Bernstein, Sondheim, Laurents, Robbins'},
+ {id:'fid',t:'Fiddler on the Roof',yr:'1964 · Bock, Harnick, Robbins'},
+ {id:'hair',t:'Hair',yr:'1968 · Galt MacDermot'}
+];
+var FACTS=[
+ {id:'fid',t:'First Broadway musical to pass 3,000 performances',d:'A record that stood for nearly a decade, for a show about a Jewish community facing expulsion from Tsarist Russia.'},
+ {id:'hair',t:'Replaced show tunes with a rock and soul score',d:'Its songs became genuine pop radio hits — the theatre speaking the audience&rsquo;s current musical language instead of its own.'},
+ {id:'wss',t:'Made dance carry the plot',d:'Gang confrontations staged as extended dance numbers, with a score fusing jazz, Latin rhythm and symphonic writing — Romeo and Juliet on the Upper West Side.'}
+];
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var selShow=null,selFact=null,matched={},statusEl=document.getElementById('status');
+var focusAfter=null;
+function applyFocus(fallback){
+  if(focusAfter){var el=document.getElementById(focusAfter);
+    if(el&&el.offsetParent!==null){el.focus();focusAfter=null;return;}}
+  focusAfter=null;
+  var fb=document.querySelector(fallback); if(fb)fb.focus();
+}
+var pairsBox=document.getElementById('pairs');
+function build(){
+  var sl=document.getElementById('shows'),fl=document.getElementById('facts');
+  sl.innerHTML='';fl.innerHTML='';
+  SHOWS.forEach(function(s){
+    if(matched[s.id])return;
+    var li=document.createElement('li'),b=document.createElement('button');
+    b.type='button';b.className='pcard';b.setAttribute('aria-pressed',selShow===s.id?'true':'false');
+    b.innerHTML=s.t+'<span class="yr">'+s.yr+'</span>';
+    b.id='show-'+s.id;
+    b.onclick=function(){selShow=(selShow===s.id)?null:s.id;focusAfter='show-'+s.id;build();tryPair();};
+    li.appendChild(b);sl.appendChild(li);
+  });
+  shuffledFacts.forEach(function(f){
+    if(matched[f.id])return;
+    var li=document.createElement('li'),b=document.createElement('button');
+    b.type='button';b.className='pcard';b.setAttribute('aria-pressed',selFact===f.id?'true':'false');
+    b.textContent=f.t;
+    b.id='fact-'+f.id;
+    b.onclick=function(){selFact=(selFact===f.id)?null:f.id;focusAfter='fact-'+f.id;build();tryPair();};
+    li.appendChild(b);fl.appendChild(li);
+  });
+  var n=Object.keys(matched).length;
+  document.getElementById('fill').style.width=(n/SHOWS.length*100)+'%';
+}
+function tryPair(){
+  if(!selShow||!selFact){
+    if(selShow||selFact){statusEl.className='status';
+      statusEl.textContent='Now choose the '+(selShow?'contribution':'show')+' that goes with it.';
+      applyFocus(selShow?'#facts .pcard':'#shows .pcard');}
+    return;
+  }
+  var ok=(selShow===selFact);
+  if(ok){
+    matched[selShow]=true;
+    var s=SHOWS.filter(function(x){return x.id===selShow;})[0];
+    var f=FACTS.filter(function(x){return x.id===selFact;})[0];
+    var li=document.createElement('li');
+    li.innerHTML='<span class="mark" aria-hidden="true">✓</span><span class="p1">'+s.t+' &mdash; '+f.t+'</span><span class="p2">'+f.d+'</span>';
+    pairsBox.appendChild(li);
+    statusEl.className='status';
+    var left=SHOWS.length-Object.keys(matched).length;
+    statusEl.textContent='Matched: '+s.t+'. '+(left?(left+' to go.'):'All three matched.');
+    if(!left)document.getElementById('done').hidden=false;
+  }else{
+    statusEl.className='status err';
+    statusEl.textContent='✗ Not a match. Those two belong to different shows — try again.';
+  }
+  selShow=null;selFact=null;build();
+  applyFocus(Object.keys(matched).length<SHOWS.length?'#shows .pcard':'#done h2');
+}
+var shuffledFacts=shuffle(FACTS.slice());
+build();
+
+</script>
+</body>
+</html>
